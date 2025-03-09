@@ -1,6 +1,6 @@
 from tkinter import Tk, BOTH, Canvas
 
-from shapes import Line
+from shapes import Cell, Line
 
 
 class Window:
@@ -28,3 +28,6 @@ class Window:
 
     def draw_line(self, line: Line, fill_color: str):
         line.draw(self.canvas, fill_color)
+
+    def draw_cell(self, cell: Cell, fill_color: str):
+        cell.draw(self.canvas, fill_color)

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from tkinter import Canvas
 
 
@@ -17,3 +17,88 @@ class Line:
         canvas.create_line(
             self.start.x, self.start.y, self.end.x, self.end.y, fill=fill_color, width=2
         )
+
+
+@dataclass
+class Walls:
+    top: bool = True
+    right: bool = True
+    bottom: bool = True
+    left: bool = True
+
+
+@dataclass
+class Cell:
+    top_left: Point
+    bottom_right: Point
+    walls: Walls = field(default_factory=Walls)
+
+    @property
+    def has_left_wall(self):
+        return self.walls.left
+
+    @property
+    def has_right_wall(self):
+        return self.walls.right
+
+    @property
+    def has_top_wall(self):
+        return self.walls.top
+
+    @property
+    def has_bottom_wall(self):
+        return self.walls.bottom
+
+    @property
+    def __top_wall(self) -> tuple[int, int, int, int] | None:
+        if self.has_top_wall:
+            return (
+                self.top_left.x,
+                self.top_left.y,
+                self.bottom_right.x,
+                self.top_left.y,
+            )
+
+    @property
+    def __right_wall(self) -> tuple[int, int, int, int] | None:
+        if self.has_right_wall:
+            return (
+                self.bottom_right.x,
+                self.top_left.y,
+                self.bottom_right.x,
+                self.bottom_right.y,
+            )
+
+    @property
+    def __bottom_wall(self) -> tuple[int, int, int, int] | None:
+        if self.has_bottom_wall:
+            return (
+                self.top_left.x,
+                self.bottom_right.y,
+                self.bottom_right.x,
+                self.bottom_right.y,
+            )
+
+    @property
+    def __left_wall(self) -> tuple[int, int, int, int] | None:
+        if self.has_left_wall:
+            return (
+                self.top_left.x,
+                self.top_left.y,
+                self.top_left.x,
+                self.bottom_right.y,
+            )
+
+    def draw(self, canvas: Canvas, fill_color: str):
+        walls = (
+            w
+            for w in (
+                self.__top_wall,
+                self.__right_wall,
+                self.__bottom_wall,
+                self.__left_wall,
+            )
+            if w is not None
+        )
+        for wall in walls:
+            canvas.create_line(*wall, fill=fill_color, width=2)
