@@ -26,6 +26,17 @@ def main():
         Cell(Point(100, 250), Point(150, 300), Walls(True, False, True, True)),
         "OrangeRed3",
     )
+
+    win.draw_cell_move(
+        Cell(Point(100, 150), Point(150, 200), Walls(True, True, False, True)),
+        Cell(Point(100, 200), Point(150, 250), Walls(False, False, True, True)),
+    )
+    win.draw_cell_move(
+        Cell(Point(100, 200), Point(150, 250), Walls(False, False, True, True)),
+        Cell(Point(150, 200), Point(200, 250), Walls(True, True, False, False)),
+        undo=True,
+    )
+
     win.wait_for_close()
 
 

@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from tkinter import Canvas
+from typing import Self
 
 
 @dataclass
@@ -34,19 +35,26 @@ class Cell:
     walls: Walls = field(default_factory=Walls)
 
     @property
-    def has_left_wall(self):
+    def center(self) -> Point:
+        return Point(
+            (self.top_left.x + self.bottom_right.x) // 2,
+            (self.top_left.y + self.bottom_right.y) // 2,
+        )
+
+    @property
+    def has_left_wall(self) -> bool:
         return self.walls.left
 
     @property
-    def has_right_wall(self):
+    def has_right_wall(self) -> bool:
         return self.walls.right
 
     @property
-    def has_top_wall(self):
+    def has_top_wall(self) -> bool:
         return self.walls.top
 
     @property
-    def has_bottom_wall(self):
+    def has_bottom_wall(self) -> bool:
         return self.walls.bottom
 
     @property
@@ -102,3 +110,9 @@ class Cell:
         )
         for wall in walls:
             canvas.create_line(*wall, fill=fill_color, width=2)
+
+    def get_move(
+        self,
+        to_cell: Self,
+    ) -> Line:
+        return Line(self.center, to_cell.center)

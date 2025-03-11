@@ -31,3 +31,7 @@ class Window:
 
     def draw_cell(self, cell: Cell, fill_color: str):
         cell.draw(self.canvas, fill_color)
+
+    def draw_cell_move(self, from_cell: Cell, to_cell, *, undo=False):
+        fill_color = "red" if undo else "black"  # TODO: un-hardcode the values
+        from_cell.get_move(to_cell).draw(self.canvas, fill_color)
