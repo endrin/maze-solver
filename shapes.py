@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import astuple, dataclass, field
 from tkinter import Canvas
 from typing import Self
 
@@ -97,7 +97,7 @@ class Cell:
                 self.bottom_right.y,
             )
 
-    def draw(self, canvas: Canvas, fill_color: str):
+    def draw(self, canvas: Canvas, fill_color: str, update=False):
         walls = (
             w
             for w in (
@@ -110,6 +110,27 @@ class Cell:
         )
         for wall in walls:
             canvas.create_line(*wall, fill=fill_color, width=2)
+
+        if update:
+            missing_walls = tuple((not w) for w in astuple(self.walls))
+            inverted = Cell(
+                self.top_left,
+                self.bottom_right,
+                Walls(*missing_walls),
+            )
+            inverted.draw(canvas, fill_color=canvas["background"], update=False)
+        # no_walls = (
+        #     w
+        #     for w in (
+        #         self.__top_wall,
+        #         self.__right_wall,
+        #         self.__bottom_wall,
+        #         self.__left_wall,
+        #     )
+        #     if w is None
+        # )
+        # for wall in no_walls:
+        #     canvas.create_line(*wall, fill=canvas["background"], width=2)
 
     def get_move(
         self,

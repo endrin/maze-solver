@@ -29,8 +29,8 @@ class Window:
     def draw_line(self, line: Line, fill_color: str):
         line.draw(self.canvas, fill_color)
 
-    def draw_cell(self, cell: Cell, fill_color: str):
-        cell.draw(self.canvas, fill_color)
+    def draw_cell(self, cell: Cell, fill_color: str, update=False):
+        cell.draw(self.canvas, fill_color, update)
 
     def draw_cell_move(self, from_cell: Cell, to_cell, *, undo=False):
         fill_color = "red" if undo else "black"  # TODO: un-hardcode the values
