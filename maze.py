@@ -52,6 +52,11 @@ class Maze:
         self.win.redraw()
         time.sleep(0.05)
 
+    def _reset_cells_visited(self):
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                self._cells[i][j].visited = False
+
     def _break_entrance_and_exit(self):
         self._cells[0][0].walls.top = False
         self._draw_cell(0, 0, update=True)
@@ -99,9 +104,6 @@ class Maze:
                 raise RuntimeError(
                     f"attempt to break wall for incompatible cells: ({from_i}, {from_j}) -> ({to_i}, {to_j})"
                 )
-        # self._draw_cell(from_i, from_j, update=True)
-        # self._draw_cell(to_i, to_j, update=True)
-        # self._animate()
 
     def _cell_at(self, x_pos: int, y_pos: int, x_size: int, y_size: int) -> Cell:
         x = self.start.x + x_pos * x_size
