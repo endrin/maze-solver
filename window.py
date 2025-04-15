@@ -1,6 +1,7 @@
 from tkinter import Tk, BOTH, Canvas
 
-from shapes import Cell, Line
+from cell import Cell
+from shapes import Line
 
 
 class Window:
