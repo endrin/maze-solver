@@ -83,6 +83,19 @@ class Cell:
                 self.bottom_right.y,
             )
 
+    def has_wall_at(self, di, dj):
+        match (di, dj):
+            case (1, 0):
+                return self.has_bottom_wall
+            case (0, 1):
+                return self.has_right_wall
+            case (-1, 0):
+                return self.has_top_wall
+            case (0, -1):
+                return self.has_left_wall
+            case _:
+                f"attempt to get wall in wrong direction: ({di}, {dj})"
+
     def draw(self, canvas: Canvas, fill_color: str, update=False):
         walls = (
             w
